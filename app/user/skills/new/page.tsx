@@ -8,7 +8,7 @@ export default function NewSkillPage() {
       <SkillForm
         action={createSkill}
         submitLabel="Create skill"
-        cancelHref="/dashboard"
+        cancelHref="/user"
       />
     </div>
   )

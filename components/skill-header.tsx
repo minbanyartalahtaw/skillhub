@@ -44,7 +44,7 @@ export function SkillHeader({ skill, saves }: { skill: Skill; saves: number }) {
           </h1>
           <div className="flex shrink-0 items-center gap-2">
             <Link
-              href={`/dashboard/skills/${skill.slug}/edit`}
+              href={`/user/skills/${skill.slug}/edit`}
               className={buttonVariants({ variant: "outline", size: "sm" })}
             >
               <IconPencil />

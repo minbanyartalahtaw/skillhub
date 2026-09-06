@@ -6,7 +6,7 @@ import { getSkillBySlug, listSkillVersions } from "@/lib/skills"
 
 export default async function SkillPage({
   params,
-}: PageProps<"/dashboard/skills/[slug]">) {
+}: PageProps<"/user/skills/[slug]">) {
   const { slug } = await params
   const skill = await getSkillBySlug(slug)
 

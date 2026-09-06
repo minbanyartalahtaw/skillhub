@@ -26,7 +26,7 @@ function parse(formData: FormData) {
 
 /** Sidebar and dashboard both read the owner's list, so refresh the layout. */
 function refreshSkillViews() {
-  revalidatePath("/dashboard", "layout")
+  revalidatePath("/user", "layout")
 }
 
 export async function createSkill(
@@ -91,7 +91,7 @@ export async function createSkill(
   })
 
   refreshSkillViews()
-  redirect(`/dashboard/skills/${slug}`)
+  redirect(`/user/skills/${slug}`)
 }
 
 export async function updateSkill(
@@ -143,7 +143,7 @@ export async function updateSkill(
   })
 
   refreshSkillViews()
-  redirect(`/dashboard/skills/${updated.slug}`)
+  redirect(`/user/skills/${updated.slug}`)
 }
 
 /**
@@ -189,7 +189,7 @@ export async function restoreSkillVersion(skillId: string, version: number) {
   })
 
   refreshSkillViews()
-  redirect(`/dashboard/skills/${updated.slug}`)
+  redirect(`/user/skills/${updated.slug}`)
 }
 
 export async function deleteSkill(skillId: string) {
@@ -208,7 +208,7 @@ export async function deleteSkill(skillId: string) {
   await versions.deleteMany({ skillId: deleted._id })
 
   refreshSkillViews()
-  redirect("/dashboard")
+  redirect("/user")
 }
 
 function isDuplicateKey(error: unknown) {

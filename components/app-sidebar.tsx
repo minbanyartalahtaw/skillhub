@@ -47,8 +47,8 @@ import {
 } from "@/components/ui/sidebar"
 
 const navItems = [
-  { title: "Dashboard", href: "/dashboard", icon: IconLayoutDashboard },
-  { title: "New skill", href: "/dashboard/skills/new", icon: IconPlus },
+  { title: "All skills", href: "/user", icon: IconLayoutDashboard },
+  { title: "New skill", href: "/user/skills/new", icon: IconPlus },
 ]
 
 type User = { name: string; email: string }
@@ -67,7 +67,7 @@ export function AppSidebar({
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link href="/dashboard" />}>
+            <SidebarMenuButton size="lg" render={<Link href="/user" />}>
               {/* Wordmark: "Skill" in the sidebar's text color, "Hub" in green. */}
               <span className="truncate font-heading text-lg font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
                 <span className="text-sidebar-foreground">Skill</span>
@@ -112,7 +112,7 @@ export function AppSidebar({
                 </p>
               ) : (
                 recentSkills.map((skill) => {
-                  const href = `/dashboard/skills/${skill.slug}`
+                  const href = `/user/skills/${skill.slug}`
                   return (
                     <SidebarMenuItem key={skill.id}>
                       <SidebarMenuButton

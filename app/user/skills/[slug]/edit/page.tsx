@@ -6,7 +6,7 @@ import { getSkillBySlug } from "@/lib/skills"
 
 export default async function EditSkillPage({
   params,
-}: PageProps<"/dashboard/skills/[slug]/edit">) {
+}: PageProps<"/user/skills/[slug]/edit">) {
   const { slug } = await params
   const skill = await getSkillBySlug(slug)
 
@@ -22,7 +22,7 @@ export default async function EditSkillPage({
         action={updateSkill.bind(null, skill.id)}
         skill={skill}
         submitLabel="Save changes"
-        cancelHref={`/dashboard/skills/${skill.slug}`}
+        cancelHref={`/user/skills/${skill.slug}`}
       />
     </div>
   )
