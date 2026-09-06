@@ -6,8 +6,7 @@ import { redirect } from "next/navigation"
 import { ObjectId } from "mongodb"
 
 import { decrypt } from "@/lib/session"
-import { getDb } from "@/lib/mongodb"
-import type { UserDoc } from "@/lib/definitions"
+import { getUsers } from "@/lib/collections"
 
 /**
  * The real access check. Proxy only does an optimistic cookie check, so every
@@ -27,13 +26,11 @@ export const verifySession = cache(async () => {
 export const getUser = cache(async () => {
   const session = await verifySession()
 
-  const db = await getDb()
-  const user = await db
-    .collection<UserDoc>("users")
-    .findOne(
-      { _id: new ObjectId(session.userId) },
-      { projection: { password: 0 } }
-    )
+  const users = await getUsers()
+  const user = await users.findOne(
+    { _id: new ObjectId(session.userId) },
+    { projection: { password: 0 } }
+  )
 
   if (!user) return null
 

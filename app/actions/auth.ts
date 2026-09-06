@@ -4,13 +4,12 @@ import bcrypt from "bcryptjs"
 import * as z from "zod"
 import { redirect } from "next/navigation"
 
-import { getDb } from "@/lib/mongodb"
+import { ensureUserIndexes, getUsers } from "@/lib/collections"
 import { createSession, deleteSession } from "@/lib/session"
 import {
   LoginFormSchema,
   SignupFormSchema,
   type FormState,
-  type UserDoc,
 } from "@/lib/definitions"
 
 export async function signup(_state: FormState, formData: FormData) {
@@ -25,11 +24,10 @@ export async function signup(_state: FormState, formData: FormData) {
   }
 
   const { name, email, password } = validated.data
-  const db = await getDb()
-  const users = db.collection<UserDoc>("users")
+  const users = await getUsers()
 
   // Unique index makes this race-safe; the check is here for a clean message.
-  await users.createIndex({ email: 1 }, { unique: true })
+  await ensureUserIndexes()
 
   if (await users.findOne({ email })) {
     return { message: "An account with that email already exists." }
@@ -57,8 +55,8 @@ export async function login(_state: FormState, formData: FormData) {
   }
 
   const { email, password } = validated.data
-  const db = await getDb()
-  const user = await db.collection<UserDoc>("users").findOne({ email })
+  const users = await getUsers()
+  const user = await users.findOne({ email })
 
   // One message for both cases, so it can't be used to probe which emails exist.
   if (!user || !(await bcrypt.compare(password, user.password))) {
