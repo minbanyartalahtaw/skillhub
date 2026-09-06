@@ -43,7 +43,7 @@ export async function signup(_state: FormState, formData: FormData) {
   })
 
   await createSession(result.insertedId.toString())
-  redirect("/user")
+  redirect("/dashboard")
 }
 
 export async function login(_state: FormState, formData: FormData) {
@@ -66,7 +66,7 @@ export async function login(_state: FormState, formData: FormData) {
   }
 
   await createSession(user._id.toString())
-  redirect("/user")
+  redirect("/dashboard")
 }
 
 export async function logout() {
