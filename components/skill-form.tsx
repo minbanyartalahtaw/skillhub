@@ -2,8 +2,24 @@
 
 import { useActionState } from "react"
 import Link from "next/link"
+import {
+  IconAlertCircle,
+  IconLink,
+  IconLoader2,
+  IconLock,
+  IconMarkdown,
+  IconWorld,
+} from "@tabler/icons-react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
@@ -37,91 +53,145 @@ export function SkillForm({
 
   return (
     <form action={formAction} className="flex flex-col gap-6">
-      <Field label="Name" htmlFor="name" errors={state?.errors?.name}>
-        <Input
-          id="name"
-          name="name"
-          defaultValue={skill?.name}
-          placeholder="Writing git commits"
-          required
-        />
-      </Field>
+      <Card>
+        <CardHeader>
+          <CardTitle>Details</CardTitle>
+        </CardHeader>
+        <CardContent className="gap-5">
+          <Field label="Name" htmlFor="name" errors={state?.errors?.name}>
+            <Input
+              id="name"
+              name="name"
+              defaultValue={skill?.name}
+              placeholder="Writing git commits"
+              maxLength={100}
+              required
+            />
+          </Field>
 
-      <Field
-        label="Description"
-        htmlFor="description"
-        hint="When should this skill be used?"
-        errors={state?.errors?.description}
-      >
-        <Input
-          id="description"
-          name="description"
-          defaultValue={skill?.description}
-          placeholder="Use when writing commit messages for this repo."
-          required
-        />
-      </Field>
+          <Field
+            label="Description"
+            htmlFor="description"
+            hint="One line. This is what tells you — or Claude — when to reach for the skill."
+            errors={state?.errors?.description}
+          >
+            <Input
+              id="description"
+              name="description"
+              defaultValue={skill?.description}
+              placeholder="Use when writing commit messages for this repo."
+              maxLength={300}
+              required
+            />
+          </Field>
+        </CardContent>
+      </Card>
 
-      <Field
-        label="Instructions"
-        htmlFor="content"
-        hint="Markdown. Rendered when the skill is viewed."
-        errors={state?.errors?.content}
-      >
-        <Textarea
-          id="content"
-          name="content"
-          defaultValue={skill?.content}
-          placeholder={"## Steps\n\n1. …"}
-          className="min-h-72 font-mono text-sm"
-          required
-        />
-      </Field>
-
-      <div className="grid gap-6 sm:grid-cols-2">
-        <Field
-          label="Tags"
-          htmlFor="tags"
-          hint="Comma separated."
-          errors={state?.errors?.tags}
-        >
-          <Input
-            id="tags"
-            name="tags"
-            defaultValue={skill?.tags.join(", ")}
-            placeholder="git, writing"
+      <Card>
+        {/* The filename sits where it does on the skill page, so the thing you
+            are typing into is visibly the same document you read there. */}
+        <CardHeader className="border-b">
+          <CardTitle>Instructions</CardTitle>
+          <CardDescription>
+            Markdown, rendered when the skill is viewed.
+          </CardDescription>
+          <CardAction>
+            <span className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
+              <IconMarkdown className="size-4" />
+              {skill?.slug ?? "untitled"}.md
+            </span>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <Label htmlFor="content" className="sr-only">
+            Instructions
+          </Label>
+          <Textarea
+            id="content"
+            name="content"
+            defaultValue={skill?.content}
+            placeholder={"## Steps\n\n1. …"}
+            className="min-h-96 resize-y bg-muted/30 font-mono text-sm leading-relaxed"
+            required
           />
-        </Field>
+          {state?.errors?.content?.length ? (
+            <p className="text-xs text-destructive">{state.errors.content[0]}</p>
+          ) : null}
+        </CardContent>
+      </Card>
 
-        <Field
-          label="Visibility"
-          htmlFor="visibility"
-          errors={state?.errors?.visibility}
-        >
-          <Select name="visibility" defaultValue={skill?.visibility ?? "private"}>
-            <SelectTrigger id="visibility" className="w-full">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="private">Private</SelectItem>
-              <SelectItem value="unlisted">Unlisted</SelectItem>
-              <SelectItem value="public">Public</SelectItem>
-            </SelectContent>
-          </Select>
-        </Field>
-      </div>
+      <Card>
+        <CardHeader>
+          <CardTitle>Organisation</CardTitle>
+          <CardDescription>
+            How the skill is filed, and who can open it.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field
+              label="Tags"
+              htmlFor="tags"
+              hint="Comma separated. Up to ten."
+              errors={state?.errors?.tags}
+            >
+              <Input
+                id="tags"
+                name="tags"
+                defaultValue={skill?.tags.join(", ")}
+                placeholder="git, writing"
+              />
+            </Field>
 
-      {state?.message ? (
-        <p className="text-sm text-destructive">{state.message}</p>
-      ) : null}
+            <Field
+              label="Visibility"
+              htmlFor="visibility"
+              hint="Private skills stay with you."
+              errors={state?.errors?.visibility}
+            >
+              <Select
+                name="visibility"
+                defaultValue={skill?.visibility ?? "private"}
+              >
+                <SelectTrigger id="visibility" className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="private">
+                    <IconLock />
+                    Private
+                  </SelectItem>
+                  <SelectItem value="unlisted">
+                    <IconLink />
+                    Unlisted
+                  </SelectItem>
+                  <SelectItem value="public">
+                    <IconWorld />
+                    Public
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          </div>
+        </CardContent>
+      </Card>
 
-      <div className="flex items-center gap-2">
+      {/* Pinned to the bottom of the viewport: the Markdown field is long
+          enough that Save would otherwise scroll out of reach. */}
+      <div className="sticky bottom-0 z-10 flex flex-wrap items-center gap-2 border-t bg-background/85 py-3 backdrop-blur">
         <Button type="submit" disabled={pending}>
+          {pending ? <IconLoader2 className="animate-spin" /> : null}
           {pending ? "Saving…" : submitLabel}
         </Button>
         <Link href={cancelHref} className={buttonVariants({ variant: "ghost" })}>
           Cancel
         </Link>
+        {state?.message ? (
+          <p className="ml-auto inline-flex items-center gap-1.5 text-sm text-destructive">
+            <IconAlertCircle className="size-4 shrink-0" />
+            {state.message}
+          </p>
+        ) : null}
       </div>
     </form>
   )
