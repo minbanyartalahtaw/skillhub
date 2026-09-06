@@ -4,8 +4,10 @@ import { useState, useTransition } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import {
+  IconFileText,
   IconLayoutDashboard,
   IconLogout,
+  IconPlus,
   IconSelector,
 } from "@tabler/icons-react"
 
@@ -28,12 +30,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import type { SkillSummary } from "@/lib/skills"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -42,14 +46,20 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 
-// Dashboard is the only destination for now; new sections get added here.
 const navItems = [
   { title: "Dashboard", href: "/dashboard", icon: IconLayoutDashboard },
+  { title: "New skill", href: "/dashboard/skills/new", icon: IconPlus },
 ]
 
 type User = { name: string; email: string }
 
-export function AppSidebar({ user }: { user: User | null }) {
+export function AppSidebar({
+  user,
+  recentSkills,
+}: {
+  user: User | null
+  recentSkills: SkillSummary[]
+}) {
   const pathname = usePathname()
 
   return (
@@ -88,6 +98,35 @@ export function AppSidebar({ user }: { user: User | null }) {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Recent skills</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {recentSkills.length === 0 ? (
+                <p className="px-2 py-1 text-xs text-muted-foreground group-data-[collapsible=icon]:hidden">
+                  Nothing yet.
+                </p>
+              ) : (
+                recentSkills.map((skill) => {
+                  const href = `/dashboard/skills/${skill.slug}`
+                  return (
+                    <SidebarMenuItem key={skill.id}>
+                      <SidebarMenuButton
+                        isActive={pathname === href}
+                        tooltip={skill.name}
+                        render={<Link href={href} />}
+                      >
+                        <IconFileText />
+                        <span>{skill.name}</span>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )
+                })
+              )}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
