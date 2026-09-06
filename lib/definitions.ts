@@ -53,7 +53,10 @@ export const SkillFormSchema = z.object({
     .trim(),
   content: z
     .string()
-    .min(1, { error: "A skill needs some Markdown to be useful." }),
+    .min(1, { error: "A skill needs some Markdown to be useful." })
+    // Browsers CRLF-normalise a <textarea> on submit; store plain \n so the
+    // Markdown reads cleanly wherever it is copied out to.
+    .transform((value) => value.replace(/\r\n/g, "\n")),
   // Comma-separated in the form, an array in the database.
   tags: z
     .string()
