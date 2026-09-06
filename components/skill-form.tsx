@@ -7,16 +7,13 @@ import {
   IconLink,
   IconLoader2,
   IconLock,
-  IconMarkdown,
   IconWorld,
 } from "@tabler/icons-react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Card,
-  CardAction,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -54,9 +51,6 @@ export function SkillForm({
   return (
     <form action={formAction} className="flex flex-col gap-6">
       <Card>
-        <CardHeader>
-          <CardTitle>Details</CardTitle>
-        </CardHeader>
         <CardContent className="gap-5">
           <Field label="Name" htmlFor="name" errors={state?.errors?.name}>
             <Input
@@ -72,7 +66,6 @@ export function SkillForm({
           <Field
             label="Description"
             htmlFor="description"
-            hint="One line. This is what tells you — or Claude — when to reach for the skill."
             errors={state?.errors?.description}
           >
             <Input
@@ -92,15 +85,6 @@ export function SkillForm({
             are typing into is visibly the same document you read there. */}
         <CardHeader className="border-b">
           <CardTitle>Instructions</CardTitle>
-          <CardDescription>
-            Markdown, rendered when the skill is viewed.
-          </CardDescription>
-          <CardAction>
-            <span className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground">
-              <IconMarkdown className="size-4" />
-              {skill?.slug ?? "untitled"}.md
-            </span>
-          </CardAction>
         </CardHeader>
         <CardContent>
           <Label htmlFor="content" className="sr-only">
@@ -121,12 +105,6 @@ export function SkillForm({
       </Card>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Organisation</CardTitle>
-          <CardDescription>
-            How the skill is filed, and who can open it.
-          </CardDescription>
-        </CardHeader>
         <CardContent>
           <div className="grid gap-5 sm:grid-cols-2">
             <Field
