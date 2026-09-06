@@ -43,6 +43,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
 
@@ -65,21 +66,23 @@ export function AppSidebar({
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link href="/user" />}>
-              {/* Wordmark: "Skill" in the sidebar's text color, "Hub" in green. */}
-              <span className="truncate font-heading text-lg font-semibold tracking-tight group-data-[collapsible=icon]:hidden">
-                <span className="text-sidebar-foreground">Skill</span>
-                <span className="text-green-600 dark:text-green-500">Hub</span>
-              </span>
-              <span className="hidden text-lg font-semibold tracking-tight group-data-[collapsible=icon]:block">
-                <span className="text-sidebar-foreground">S</span>
-                <span className="text-green-600 dark:text-green-500">H</span>
-              </span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <div className="flex items-center gap-1">
+          {/* Collapsed to the icon rail there is only room for one control, and
+              the trigger is the one that gets you out of it. */}
+          <SidebarMenu className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
+            <SidebarMenuItem>
+              <SidebarMenuButton size="lg" render={<Link href="/user" />}>
+                {/* Wordmark: "Skill" in the sidebar's text color, "Hub" green. */}
+                <span className="truncate font-heading text-lg font-semibold tracking-tight">
+                  <span className="text-sidebar-foreground">Skill</span>
+                  <span className="text-green-600 dark:text-green-500">Hub</span>
+                </span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+          {/* Mobile gets its own floating trigger; the sheet has no rail. */}
+          <SidebarTrigger className="hidden shrink-0 md:flex" />
+        </div>
       </SidebarHeader>
 
       <SidebarContent>

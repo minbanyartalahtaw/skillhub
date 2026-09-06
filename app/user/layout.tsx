@@ -19,10 +19,16 @@ export default async function UserLayout({
       <SidebarProvider>
         <AppSidebar user={user} recentSkills={recentSkills} />
         <SidebarInset>
-          <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-2 border-b bg-background px-4">
-            <SidebarTrigger className="-ml-1" />
+          {/* Mobile only: the sidebar is a sheet there, so it needs a trigger
+              outside itself. Plain space — no border, no shadow — so it reads
+              as margin rather than chrome. On md+ the trigger lives in the
+              sidebar header and this disappears entirely. */}
+          <header className="sticky top-0 z-30 flex h-14 shrink-0 items-center bg-background px-3 md:hidden">
+            <SidebarTrigger />
           </header>
-          <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+          <div className="flex flex-1 flex-col gap-4 p-4 pt-0 md:pt-4">
+            {children}
+          </div>
         </SidebarInset>
       </SidebarProvider>
     </TooltipProvider>
