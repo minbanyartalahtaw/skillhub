@@ -1,6 +1,7 @@
 services:
   mongo:
-    image: mongo:8
+    # MongoDB 8.x refuses to start on Linux kernels >= 6.19 (SERVER-121912).
+    image: mongo:7
     container_name: skillhub-mongo
     restart: unless-stopped
     ports:
