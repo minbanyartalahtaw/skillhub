@@ -1,23 +1,10 @@
-import Link from "next/link"
-import { IconArrowLeft } from "@tabler/icons-react"
-
 import { createSkill } from "@/app/actions/skills"
 import { SkillForm } from "@/components/skill-form"
 
 export default function NewSkillPage() {
   return (
     <div className="mx-auto w-full max-w-3xl">
-      {/* Same shell as the edit page: the two are the same form, so they should
-          not read as two different screens. */}
-      <Link
-        href="/user"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
-      >
-        <IconArrowLeft className="size-4 shrink-0" />
-        Skills
-      </Link>
-
-      <div className="mt-3 mb-8 border-b pb-5">
+      <div className="mb-8 border-b pb-5">
         <h1 className="font-heading text-2xl font-semibold tracking-tight">
           New skill
         </h1>
