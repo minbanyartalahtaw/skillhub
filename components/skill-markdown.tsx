@@ -93,7 +93,7 @@ export function SkillMarkdown({ content }: { content: string }) {
           pre: ({ className, ...props }) => (
             <pre
               className={cn(
-                "my-3 overflow-x-auto rounded-md bg-muted p-3 font-mono text-xs",
+                "my-3 overflow-x-auto rounded-md border bg-muted p-3 font-mono text-xs",
                 className
               )}
               {...props}
