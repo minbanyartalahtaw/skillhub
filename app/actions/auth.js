@@ -6,13 +6,9 @@ import { redirect } from "next/navigation"
 
 import { ensureUserIndexes, getUsers } from "@/lib/collections"
 import { createSession, deleteSession } from "@/lib/session"
-import {
-  LoginFormSchema,
-  SignupFormSchema,
-  type FormState,
-} from "@/lib/definitions"
+import { LoginFormSchema, SignupFormSchema } from "@/lib/definitions"
 
-export async function signup(_state: FormState, formData: FormData) {
+export async function signup(_state, formData) {
   const validated = SignupFormSchema.safeParse({
     name: formData.get("name"),
     email: formData.get("email"),
@@ -44,7 +40,7 @@ export async function signup(_state: FormState, formData: FormData) {
   redirect("/user")
 }
 
-export async function login(_state: FormState, formData: FormData) {
+export async function login(_state, formData) {
   const validated = LoginFormSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),

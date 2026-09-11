@@ -11,10 +11,10 @@ import {
   getSkillVersions,
 } from "@/lib/collections"
 import { verifySession } from "@/lib/dal"
-import { SkillFormSchema, type SkillFormState } from "@/lib/definitions"
+import { SkillFormSchema } from "@/lib/definitions"
 import { slugify } from "@/lib/skills"
 
-function parse(formData: FormData) {
+function parse(formData) {
   return SkillFormSchema.safeParse({
     name: formData.get("name"),
     description: formData.get("description"),
@@ -29,10 +29,7 @@ function refreshSkillViews() {
   revalidatePath("/user", "layout")
 }
 
-export async function createSkill(
-  _state: SkillFormState,
-  formData: FormData
-): Promise<SkillFormState> {
+export async function createSkill(_state, formData) {
   const validated = parse(formData)
   if (!validated.success) {
     return { errors: z.flattenError(validated.error).fieldErrors }
@@ -52,7 +49,7 @@ export async function createSkill(
   // {ownerId, slug} is unique, so a clash is a duplicate-key error rather than
   // an overwrite. Walk suffixes until one sticks.
   let slug = base
-  let skillId: ObjectId | null = null
+  let skillId = null
 
   for (let attempt = 1; attempt <= 20 && !skillId; attempt++) {
     slug = attempt === 1 ? base : `${base}-${attempt}`
@@ -94,11 +91,7 @@ export async function createSkill(
   redirect(`/user/skills/${slug}`)
 }
 
-export async function updateSkill(
-  skillId: string,
-  _state: SkillFormState,
-  formData: FormData
-): Promise<SkillFormState> {
+export async function updateSkill(skillId, _state, formData) {
   const validated = parse(formData)
   if (!validated.success) {
     return { errors: z.flattenError(validated.error).fieldErrors }
@@ -150,7 +143,7 @@ export async function updateSkill(
  * Restoring writes a new version holding the old text. Nothing is deleted, so
  * the restore itself can be undone.
  */
-export async function restoreSkillVersion(skillId: string, version: number) {
+export async function restoreSkillVersion(skillId, version) {
   const session = await verifySession()
   const ownerId = new ObjectId(session.userId)
   const skills = await getSkills()
@@ -192,7 +185,7 @@ export async function restoreSkillVersion(skillId: string, version: number) {
   redirect(`/user/skills/${updated.slug}`)
 }
 
-export async function deleteSkill(skillId: string) {
+export async function deleteSkill(skillId) {
   const session = await verifySession()
   const ownerId = new ObjectId(session.userId)
   const skills = await getSkills()
@@ -211,11 +204,11 @@ export async function deleteSkill(skillId: string) {
   redirect("/user")
 }
 
-function isDuplicateKey(error: unknown) {
+function isDuplicateKey(error) {
   return (
     typeof error === "object" &&
     error !== null &&
     "code" in error &&
-    (error as { code?: number }).code === 11000
+    error.code === 11000
   )
 }
