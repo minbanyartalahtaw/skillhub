@@ -8,9 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { getUser } from "@/lib/dal"
 import { listSkills } from "@/lib/skills"
 
-export default async function UserLayout({
-  children,
-}: LayoutProps<"/user">) {
+export default async function UserLayout({ children }) {
   // verifySession inside getUser redirects to /login when signed out.
   const [user, recentSkills] = await Promise.all([getUser(), listSkills(5)])
 

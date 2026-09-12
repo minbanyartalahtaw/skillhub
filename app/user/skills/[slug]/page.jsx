@@ -6,9 +6,7 @@ import { SkillHeader } from "@/components/skill-header"
 import { SkillMarkdown } from "@/components/skill-markdown"
 import { getSkillBySlug, listSkillVersions } from "@/lib/skills"
 
-export default async function SkillPage({
-  params,
-}: PageProps<"/user/skills/[slug]">) {
+export default async function SkillPage({ params }) {
   const { slug } = await params
   const skill = await getSkillBySlug(slug)
 

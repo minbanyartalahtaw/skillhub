@@ -5,9 +5,7 @@ import { updateSkill } from "@/app/actions/skills"
 import { SkillForm } from "@/components/skill-form"
 import { getSkillBySlug } from "@/lib/skills"
 
-export default async function EditSkillPage({
-  params,
-}: PageProps<"/user/skills/[slug]/edit">) {
+export default async function EditSkillPage({ params }) {
   const { slug } = await params
   const skill = await getSkillBySlug(slug)
 
