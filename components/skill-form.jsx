@@ -27,25 +27,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import type { SkillFormState } from "@/lib/definitions"
-import type { Skill } from "@/lib/skills"
 
-type SkillAction = (
-  state: SkillFormState,
-  formData: FormData
-) => Promise<SkillFormState>
-
-export function SkillForm({
-  action,
-  skill,
-  submitLabel,
-  cancelHref,
-}: {
-  action: SkillAction
-  skill?: Skill
-  submitLabel: string
-  cancelHref: string
-}) {
+export function SkillForm({ action, skill, submitLabel, cancelHref }) {
   const [state, formAction, pending] = useActionState(action, undefined)
 
   return (
@@ -175,19 +158,7 @@ export function SkillForm({
   )
 }
 
-function Field({
-  label,
-  htmlFor,
-  hint,
-  errors,
-  children,
-}: {
-  label: string
-  htmlFor: string
-  hint?: string
-  errors?: string[]
-  children: React.ReactNode
-}) {
+function Field({ label, htmlFor, hint, errors, children }) {
   return (
     <div className="grid gap-2">
       <Label htmlFor={htmlFor}>{label}</Label>

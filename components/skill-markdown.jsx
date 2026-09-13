@@ -11,7 +11,7 @@ import { cn } from "cn"
  * remark-gfm labels task lists with one, and dropping it would take these
  * styles with it.
  */
-export function SkillMarkdown({ content }: { content: string }) {
+export function SkillMarkdown({ content }) {
   return (
     <div className="text-sm leading-relaxed">
       <Markdown

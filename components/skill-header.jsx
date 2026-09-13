@@ -8,11 +8,10 @@ import { SkillActions } from "@/components/skill-actions"
 import { Badge } from "@/components/ui/badge"
 import { buttonVariants } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
-import type { Skill } from "@/lib/skills"
 
-export function SkillHeader({ skill, saves }: { skill: Skill; saves: number }) {
+export function SkillHeader({ skill, saves }) {
   const { isMobile } = useSidebar()
-  const sentinel = useRef<HTMLDivElement>(null)
+  const sentinel = useRef(null)
   const [stuck, setStuck] = useState(false)
 
   useEffect(() => {

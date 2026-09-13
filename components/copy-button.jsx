@@ -5,17 +5,9 @@ import { IconCheck, IconCopy } from "@tabler/icons-react"
 
 import { Button } from "@/components/ui/button"
 
-type Status = "idle" | "copied" | "failed"
-
-export function CopyButton({
-  value,
-  label = "Copy",
-}: {
-  value: string
-  label?: string
-}) {
-  const [status, setStatus] = useState<Status>("idle")
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
+export function CopyButton({ value, label = "Copy" }) {
+  const [status, setStatus] = useState("idle")
+  const timer = useRef(null)
 
   // A click while the "Copied" label is still showing would otherwise leave a
   // stale timer to clear the new one early.

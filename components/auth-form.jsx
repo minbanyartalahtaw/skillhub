@@ -14,24 +14,9 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import type { FormState } from "@/lib/definitions"
 
-type AuthAction = (
-  state: FormState,
-  formData: FormData
-) => Promise<FormState> | FormState
-
-export function AuthForm({
-  mode,
-  action,
-}: {
-  mode: "login" | "signup"
-  action: AuthAction
-}) {
-  const [state, formAction, pending] = useActionState<FormState, FormData>(
-    action,
-    undefined
-  )
+export function AuthForm({ mode, action }) {
+  const [state, formAction, pending] = useActionState(action, undefined)
 
   const isSignup = mode === "signup"
 
@@ -103,12 +88,7 @@ export function AuthForm({
   )
 }
 
-function Field({
-  id,
-  label,
-  errors,
-  ...props
-}: React.ComponentProps<typeof Input> & { label: string; errors?: string[] }) {
+function Field({ id, label, errors, ...props }) {
   return (
     <div className="flex flex-col gap-2">
       <Label htmlFor={id}>{label}</Label>

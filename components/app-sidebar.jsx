@@ -30,7 +30,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import type { SkillSummary } from "@/lib/skills"
 import {
   Sidebar,
   SidebarContent,
@@ -52,15 +51,7 @@ const navItems = [
   { title: "New skill", href: "/user/skills/new", icon: IconPlus },
 ]
 
-type User = { name: string; email: string }
-
-export function AppSidebar({
-  user,
-  recentSkills,
-}: {
-  user: User | null
-  recentSkills: SkillSummary[]
-}) {
+export function AppSidebar({ user, recentSkills }) {
   const pathname = usePathname()
 
   return (
@@ -148,7 +139,7 @@ export function AppSidebar({
   )
 }
 
-function UserMenu({ user }: { user: User }) {
+function UserMenu({ user }) {
   const { isMobile } = useSidebar()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [isSigningOut, startSignOut] = useTransition()
@@ -223,7 +214,7 @@ function UserMenu({ user }: { user: User }) {
   )
 }
 
-function UserAvatar({ user }: { user: User }) {
+function UserAvatar({ user }) {
   return (
     <div className="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-accent text-xs font-medium text-sidebar-accent-foreground uppercase">
       {user.name.slice(0, 2)}

@@ -23,13 +23,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function SkillActions({
-  skillId,
-  skillName,
-}: {
-  skillId: string
-  skillName: string
-}) {
+export function SkillActions({ skillId, skillName }) {
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [isDeleting, startDelete] = useTransition()
 
