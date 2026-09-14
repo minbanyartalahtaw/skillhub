@@ -1,7 +1,7 @@
 import * as React from "react"
 import { cn } from "cn"
 
-function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
+function Textarea({ className, ...props }) {
   return (
     <textarea
       data-slot="textarea"

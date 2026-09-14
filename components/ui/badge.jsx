@@ -1,6 +1,6 @@
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
-import { cva, type VariantProps } from "class-variance-authority"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 
 const badgeVariants = cva(
@@ -26,15 +26,10 @@ const badgeVariants = cva(
   }
 )
 
-function Badge({
-  className,
-  variant = "default",
-  render,
-  ...props
-}: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
+function Badge({ className, variant = "default", render, ...props }) {
   return useRender({
     defaultTagName: "span",
-    props: mergeProps<"span">(
+    props: mergeProps(
       {
         className: cn(badgeVariants({ variant }), className),
       },
