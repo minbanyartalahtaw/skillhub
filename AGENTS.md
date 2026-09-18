@@ -16,7 +16,7 @@ A web app where users write and save skills — reusable instruction documents a
 
 ## Stack
 
-- **Next.js** (App Router, TypeScript) — everything lives under `app/`
+- **Next.js** (App Router, plain JavaScript — no TypeScript) — everything lives under `app/`
 - **MongoDB** — persistence for skills and users
 - **shadcn/ui** — components generated into `components/ui/`; add new ones with the CLI rather than hand-writing them
 - **Tailwind CSS v4** — CSS-first config; theme tokens live in `app/globals.css`, not a `tailwind.config` file
